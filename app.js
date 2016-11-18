@@ -1,4 +1,8 @@
 var express = require('express');
+var exphbs  = require('express-handlebars'); //ADD THIS
+var sassMiddleware = require('node-sass-middleware'); // ADD THIS
+
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -13,8 +17,17 @@ var todos = require('./routes/todos'); //ADD THIS LINE
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.engine('hbs', exphbs({extname: '.hbs', defaultLayout: 'layout'}));
+app.set('view engine', 'hbs');
+//SASS
+app.use (
+  sassMiddleware({
+    src: __dirname + '/sass',
+    dest: __dirname + '/public',
+    // prefix: '/stylesheets',
+    debug: true,
+  })
+);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
