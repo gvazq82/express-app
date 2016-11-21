@@ -2,6 +2,7 @@ var express = require('express');
 var exphbs  = require('express-handlebars'); //ADD THIS
 var sassMiddleware = require('node-sass-middleware'); // ADD THIS
 var browserify = require('browserify-middleware'); //ADD THIS
+var mongoose = require('mongoose');
 
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -30,6 +31,10 @@ app.use (
 );
 // Browserify
 app.get('/javascripts/bundle.js', browserify('./client/script.js'));
+
+// MONGO DB
+mongoose.connect('mongodb://localhost/todos');
+
 // Browsersync
 if (app.get('env') == 'development') {
   var browserSync = require('browser-sync');
