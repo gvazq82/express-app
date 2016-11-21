@@ -1,7 +1,7 @@
 var express = require('express');
 var exphbs  = require('express-handlebars'); //ADD THIS
 var sassMiddleware = require('node-sass-middleware'); // ADD THIS
-
+var browserify = require('browserify-middleware'); //ADD THIS
 
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -25,9 +25,24 @@ app.use (
     src: __dirname + '/sass',
     dest: __dirname + '/public',
     // prefix: '/stylesheets',
-    debug: true,
+    debug: true
   })
 );
+// Browserify
+app.get('/javascripts/bundle.js', browserify('./client/script.js'));
+// Browsersync
+if (app.get('env') == 'development') {
+  var browserSync = require('browser-sync');
+  var config = {
+    files: ["public/**/*.{js,css}", "client/*.js", "sass/**/*.scss", "views/**/*.hbs"],
+    logLevel: 'debug',
+    logSnippet: false,
+    reloadDelay: 3000,
+    reloadOnRestart: true
+  };
+  var bs = browserSync(config);
+  app.use(require('connect-browser-sync')(bs));
+}
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
