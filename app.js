@@ -12,7 +12,8 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var todos = require('./routes/todos'); //ADD THIS LINE
+var todos = require('./routes/todos/index'); //ADD THIS LINE
+var todosAPI = require('./routes/todos/api');
 
 
 var app = express();
@@ -60,6 +61,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/todos', todos); //ADD THIS LINE
+app.use('/api/todos', todosAPI);
 
 
 // catch 404 and forward to error handler
