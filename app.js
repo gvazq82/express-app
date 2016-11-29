@@ -30,6 +30,10 @@ app.use (
     debug: true
   })
 );
+//ADD THE CODE BELOW
+browserify.settings({
+  transform: ['hbsfy']
+});
 // Browserify
 app.get('/javascripts/bundle.js', browserify('./client/script.js'));
 

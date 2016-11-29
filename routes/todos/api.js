@@ -47,7 +47,7 @@ router.route('/:id')
     .catch(function(e) {
       return res.status(400).json({'status': 'fail', 'error': e});
     });
-  }).delete(function() {
+  }).delete(function(req, res, next) {
   Todo.findByIdAndRemoveAsync(req.params.id)
     .then(function(deletedTodo) {
       res.json({'status': 'success', 'todo': deletedTodo});
